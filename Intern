@@ -1,0 +1,22 @@
+import requests
+import json
+
+url = "http://jsonplaceholder.typicode.com/todos"
+r = requests.get(url)
+
+todos = json.loads(r.content)
+#print(json.dumps(todos,indent=3))
+
+total_tasks = {}
+#id_prev = 1
+
+for todo in todos:
+    if todo["completed"] == False:
+        try:
+            total_tasks[todo["userId"]] += 1
+        except KeyError:
+            total_tasks[todo["userId"]] = 1
+
+
+for key in total_tasks:
+    print(f"User {key} has {total_tasks[key]} tasks left")
